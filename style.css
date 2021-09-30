@@ -1,0 +1,36 @@
+* {
+    /* margin: 0;
+padding: 0; */
+    background-color: #f8f8f8;
+    font-family: sans-serif;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    justify-content: end;
+    border: 1px solid black;
+    padding: 20px 20px 20px 0;
+}
+
+.cart-button {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    text-align: center;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+    background: #5A98D0;
+    border-radius: 10px;
+    border-radius: 10px;
+}
+
+.goods-list {
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid black;
+}
