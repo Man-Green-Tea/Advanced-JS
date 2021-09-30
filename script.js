@@ -6,9 +6,8 @@ onload = function () {
     { title: 'Shoes', price: 250 },
   ];
 
-  const renderGoodsItem = (title, price) => {
-    return `<div class="goods-item"><h3>${title}</h3><p>${price}</p></div>`;
-  };
+  const renderGoodsItem = (title, price) =>
+    (`<div class="goods-item"><h3>${title}</h3><p>${price}</p></div>`);
 
   const renderGoodsList = (list) => {
     const goodsList = list.map(item => renderGoodsItem(item.title, item.price));
