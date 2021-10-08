@@ -19,22 +19,23 @@ class GoodsList {
       { title: 'Shoes', price: 250 },
     ];
   }
+  render() {
+    let listHtml = '';
+    this.goods.forEach(good => {
+      const goodItem = new GoodsItem(good.title, good.price);
+      listHtml += goodItem.render();
+    });
+    debugger;
+    document.querySelector('.goods-list').innerHTML = listHtml;
+  }
+  calcItems() { //так понимаю что дальее это пойдёт в корзину
+    let sum = 0;
+    this.goods.forEach(good => {
+      sum += good.price
+    });
+  }
 }
-render() {
-  let listHtml = '';
-  this.goods.forEach(good => {
-    const goodItem = new GoodsItem(good.title, good.price);
-    listHtml += goodItem.render();
-  });
-  debugger;
-  document.querySelector('.goods-list').innerHTML = listHtml;
-}
-calcItems() { //так понимаю что дальее это пойдёт в корзину
-  let sum = 0;
-  this.goods.forEach(good => {
-    sum += good.price
-  });
-}
+
 class CartItem { }
 class CartList { }
 onload = function () {
