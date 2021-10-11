@@ -1,20 +1,23 @@
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
 function makeGETRequest(url, callback) {
-  let xhr;
-  if (window.XMLHttpRequest) {
-    xhr = new XMLHttpRequest;
-  } else if (window.ActiveXObject) {
-    xhr = new ActiveXObject;
-  }
+  // let xhr;
+  // if (window.XMLHttpRequest) {
+  //   xhr = new XMLHttpRequest;
+  // } else if (window.ActiveXObject) {
+  //   xhr = new ActiveXObject;
+  // }
 
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      callback(xhr.responseText);
-    }
-  }
-  xhr.open('GET', url, true);
-  xhr.send();
+  // xhr.onreadystatechange = function () {
+  //   if (xhr.readyState === 4) {
+  //     callback(xhr.responseText);
+  //   }
+  // }
+  // xhr.open('GET', url, true);
+  // xhr.send();
+  fetch(url)
+    .then(response => response.json())
+    .then(data => callback(data))
 }
 
 class GoodsItem {
@@ -32,7 +35,7 @@ class GoodsList {
   }
   fetchGoods(callback) {
     makeGETRequest(`${API_URL}/catalogData.json`, (goods) => {
-      this.goods = JSON.parse(goods);
+      this.goods = goods;
       callback();
     })
   }
