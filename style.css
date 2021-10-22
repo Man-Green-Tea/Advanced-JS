@@ -1,8 +1,11 @@
 * {
     /* margin: 0;
 padding: 0; */
-    background-color: #f8f8f8;
     font-family: sans-serif;
+}
+
+body {
+    background-color: #f8f8f8;
 }
 
 .container {
@@ -12,6 +15,7 @@ padding: 0; */
 
 header {
     display: flex;
+    position: relative;
     justify-content: end;
     gap: 10px;
     border: 1px solid black;
@@ -28,7 +32,19 @@ header {
     color: #FFFFFF;
     background: #5A98D0;
     border-radius: 10px;
+}
+
+.close-cart-button {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    text-align: center;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+    background: #5A98D0;
     border-radius: 10px;
+    height: 35px;
+    width: 35px;
 }
 
 .goods-list {
@@ -45,4 +61,20 @@ header {
     min-width: 200px;
     min-height: 250px;
     border: 1px solid black;
+}
+
+.basket-card {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    min-height: 500px;
+    background-color: cornflowerblue;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.basket-goods-item {
+    display: flex;
+    justify-content: space-between;
 }
