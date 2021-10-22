@@ -10,10 +10,13 @@
 
 <body class="container">
    <div id="app">
-      <basket-card v-if="basketCardVision"></basket-card>
       <header><input type="text" class="goods-search" v-model="search"><button class="search-button"
-            @click="filterGoods" type="button">Искать</button><button class="cart-button" @click="setVision"
+            @click="filterGoods" type="button">Искать</button><button class="cart-button" @click="openBasketCard"
             type="button">Корзина</button>
+         <basket-card v-if="basketCardVision">
+            <button class="close-cart-button" @click="closeBasketCard" type="button">X</button>
+            <basket-goods-item v-for="item in goods" :item="item"></basket-goods-item>
+         </basket-card>
       </header>
       <div class="goods-list">
          <goods-item v-for="item in filteredGoods" :item="item"></goods-item>

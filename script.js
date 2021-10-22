@@ -1,4 +1,5 @@
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+const GET_GOODS_URL = "/catalogData.json";
 
 const GOODS = [
   { title: 'Shirt', price: 150 },
@@ -7,13 +8,35 @@ const GOODS = [
   { title: 'Shoes', price: 250 },
 ];
 
+const transformGoods = function (goods) {
+  return goods.map((_good) => {
+    return {
+      id: _good.id_product,
+      title: _good.product_name,
+      price: _good.price
+    }
+  })
+}
+
+const service = (method, postfix) => (
+  new Promise((resolve) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, `${API_URL}${postfix}`, true);
+    xhr.send();
+    xhr.onload = (event) => {
+      resolve(JSON.parse(event.target.response));
+    }
+  })
+);
+
 Vue.component('basket-goods-item', {
   props: ['item'],
   template: `
-    <div class="basket-goods-item" :style="style">
+    <div class="basket-goods-item">
       <div>{{ item.title }}</div>
       <div></div>
       <div>{{ item.price }}</div>
+      <button class="delete-button">Удалить</button>
     </div>
   `,
 });
@@ -24,13 +47,16 @@ Vue.component('goods-item', {
     <div class="goods-item">
       <div>{{ item.title }}</div>
       <div>{{ item.price }}</div>
+      <button class="add-button">Добавить</button>
     </div>
   `,
 });
 
 Vue.component('basket-card', {
   template: `
-  <div class="basket-card"></div>
+  <div class="basket-card">
+  <slot></slot>
+  </div>
   `,
 });
 
@@ -42,14 +68,24 @@ const app = new Vue({
     basketCardVision: false,
     search: ''
   },
+  mounted: function () {
+    service('GET', GET_GOODS_URL).then((goods) => {
+      const resultGoods = transformGoods(goods);
+      this.goods = resultGoods;
+      this.filteredGoods = resultGoods;
+    })
+  },
   methods: {
     filterGoods: function (event) {
       this.filteredGoods = this.goods.filter(({ title }) => {
         return new RegExp(this.search, 'i').test(title);
       })
     },
-    setVision: function () {
-      this.basketCardVision = true
+    openBasketCard: function () {
+      this.basketCardVision = true;
+    },
+    closeBasketCard: function () {
+      this.basketCardVision = false;
     },
   }
 })
