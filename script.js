@@ -1,12 +1,14 @@
-const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
-const GET_GOODS_URL = "/catalogData.json";
+const GET_GOODS_URL = "http://localhost:8000/goods.json";
+const ADD_GOOD_URL = "http://localhost:8000/api";
+const REMOVE_GOOD_URL = "http://localhost:8000/basket";
+const GET_BASKET_GOODS_URL = "http://localhost:8000/basket-goods.json ";
 
-const GOODS = [
-  { title: 'Shirt', price: 150 },
-  { title: 'Socks', price: 50 },
-  { title: 'Jacket', price: 350 },
-  { title: 'Shoes', price: 250 },
-];
+// const GOODS = [
+//   { title: 'Shirt', price: 150 },
+//   { title: 'Socks', price: 50 },
+//   { title: 'Jacket', price: 350 },
+//   { title: 'Shoes', price: 250 },
+// ];
 
 const transformGoods = function (goods) {
   return goods.map((_good) => {
@@ -18,11 +20,14 @@ const transformGoods = function (goods) {
   })
 }
 
-const service = (method, postfix) => (
+const service = (method, path, body) => (
   new Promise((resolve) => {
     const xhr = new XMLHttpRequest();
-    xhr.open(method, `${API_URL}${postfix}`, true);
-    xhr.send();
+    xhr.open(method, path, true);
+    if (body) {
+      xhr.setRequestHeader("content-type", "application/json");
+    }
+    xhr.send(body);
     xhr.onload = (event) => {
       resolve(JSON.parse(event.target.response));
     }
@@ -36,7 +41,7 @@ Vue.component('basket-goods-item', {
       <div>{{ item.title }}</div>
       <div></div>
       <div>{{ item.price }}</div>
-      <button class="delete-button">Удалить</button>
+      <button class="delete-button" @click="$emit('click', item)">Удалить</button>
     </div>
   `,
 });
@@ -47,7 +52,7 @@ Vue.component('goods-item', {
     <div class="goods-item">
       <div>{{ item.title }}</div>
       <div>{{ item.price }}</div>
-      <button class="add-button">Добавить</button>
+      <button class="add-button" @click="$emit('click', item)">Добавить</button>
     </div>
   `,
 });
@@ -63,16 +68,20 @@ Vue.component('basket-card', {
 const app = new Vue({
   el: '#app',
   data: {
-    goods: GOODS,
-    filteredGoods: GOODS,
+    goods: [],
+    filteredGoods: [],
+    basketGoods: [],
     basketCardVision: false,
     search: ''
   },
   mounted: function () {
     service('GET', GET_GOODS_URL).then((goods) => {
-      const resultGoods = transformGoods(goods);
-      this.goods = resultGoods;
-      this.filteredGoods = resultGoods;
+      // const resultGoods = transformGoods(goods);
+      this.goods = goods;
+      this.filteredGoods = goods;
+    });
+    service('GET', GET_BASKET_GOODS_URL).then((basketGoods) => {
+      this.basketGoods = basketGoods;
     })
   },
   methods: {
@@ -87,8 +96,24 @@ const app = new Vue({
     closeBasketCard: function () {
       this.basketCardVision = false;
     },
+    addGood: function ({ title, price, id }) {
+      console.log({ title, price, id });
+      service('PATCH', ADD_GOOD_URL, JSON.stringify({
+        id,
+        title,
+        price
+      })).then((_basketGoods) => {
+        this.basketGoods = _basketGoods
+      })
+    },
+    deleteGood: function ({ title, price, id }) {
+      // console.log({ title, price, id }); для проверки
+      service('DELETE', REMOVE_GOOD_URL, JSON.stringify({ title, price, id })).then((_basketGoods) => {
+        this.basketGoods = _basketGoods
+      })
+    },
   }
-})
+});
 
 
 
