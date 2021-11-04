@@ -15,11 +15,11 @@
             type="button">Корзина</button>
          <basket-card v-if="basketCardVision">
             <button class="close-cart-button" @click="closeBasketCard" type="button">X</button>
-            <basket-goods-item v-for="item in goods" :item="item"></basket-goods-item>
+            <basket-goods-item v-for="item in basketGoods" :item="item" @click="deleteGood"></basket-goods-item>
          </basket-card>
       </header>
       <div class="goods-list">
-         <goods-item v-for="item in filteredGoods" :item="item"></goods-item>
+         <goods-item v-for="item in filteredGoods" :item="item" @click="addGood"></goods-item>
       </div>
    </div>
    <script src="script.js"></script>
