@@ -27,7 +27,7 @@ const writeItems = function (path, items) {
 
 const addItems = (path, item) => {
     return new Promise((resolve, reject) => {
-        console.log('addBasket');
+        // console.log('addBasket'); для отладки
         readItems(path).then((items) => {
             const resultItems = [...items];
             resultItems.push(item);
@@ -44,12 +44,13 @@ const removeFromBasket = (path, item_id) => {
     return new Promise((resolve, reject) => {
         console.log('removeFromBasket');
         readItems(path).then((items) => {
-            const resultItems = [...items];
-            resultItems.filter(() => {
-                console.log(item);
-                return (item != item_id)
+            let resultItems = [...items];
+            resultItems = resultItems.filter((item) => {
+                // console.log(item); для отладки
+                // console.log(item_id);
+                return (item.id != item_id)
             })
-            fs.writeFile(path, resultItems).then((_resultItems) => {
+            writeItems(path, resultItems).then((_resultItems) => {
                 resolve(_resultItems);
             }).catch((err) => {
                 reject(err);
@@ -57,6 +58,7 @@ const removeFromBasket = (path, item_id) => {
         })
     })
 }
+
 
 
 module.exports = {

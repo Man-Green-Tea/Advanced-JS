@@ -107,7 +107,7 @@ const app = new Vue({
       })
     },
     deleteGood: function ({ title, price, id }) {
-      console.log({ title, price, id });
+      // console.log({ title, price, id }); для проверки
       service('DELETE', REMOVE_GOOD_URL, JSON.stringify({ title, price, id })).then((_basketGoods) => {
         this.basketGoods = _basketGoods
       })
