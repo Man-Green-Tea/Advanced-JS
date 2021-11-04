@@ -106,13 +106,9 @@ const app = new Vue({
         this.basketGoods = _basketGoods
       })
     },
-    deleteGood: function (item) {
-      console.log({ id });
-      service('DELETE', REMOVE_GOOD_URL, JSON.stringify({
-        id,
-        title,
-        price
-      })).then((_basketGoods) => {
+    deleteGood: function ({ title, price, id }) {
+      console.log({ title, price, id });
+      service('DELETE', REMOVE_GOOD_URL, JSON.stringify({ title, price, id })).then((_basketGoods) => {
         this.basketGoods = _basketGoods
       })
     },

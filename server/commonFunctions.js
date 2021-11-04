@@ -27,6 +27,7 @@ const writeItems = function (path, items) {
 
 const addItems = (path, item) => {
     return new Promise((resolve, reject) => {
+        console.log('addBasket');
         readItems(path).then((items) => {
             const resultItems = [...items];
             resultItems.push(item);
@@ -39,14 +40,16 @@ const addItems = (path, item) => {
     });
 }
 
-
-
-const removeFromBasket = function (path, item) {
+const removeFromBasket = (path, item_id) => {
     return new Promise((resolve, reject) => {
+        console.log('removeFromBasket');
         readItems(path).then((items) => {
             const resultItems = [...items];
-            resultItems = resultItems.filter(item);
-            writeItems(path, resultItems).then((_resultItems) => {
+            resultItems.filter(() => {
+                console.log(item);
+                return (item != item_id)
+            })
+            fs.writeFile(path, resultItems).then((_resultItems) => {
                 resolve(_resultItems);
             }).catch((err) => {
                 reject(err);
@@ -55,14 +58,6 @@ const removeFromBasket = function (path, item) {
     })
 }
 
-// function updateBasket(items) {
-//     items.countGoods = 0;
-//     items.amount = 0;
-//     items.contents.forEach(item => {
-//         items.countGoods += item.quantity;
-//         items.amount += item.quantity * item.price;
-//     });
-// }
 
 module.exports = {
     addItems,

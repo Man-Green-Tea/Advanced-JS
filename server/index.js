@@ -19,7 +19,7 @@ app.patch('/api', (res, req) => {
 
 app.delete('/basket', (res, req) => {
     console.log(res.body);
-    removeFromBasket(BASKET_GOODS_PATH, res.body).then((items) => {
+    removeFromBasket(BASKET_GOODS_PATH, res.body.id).then((items) => {
         req.setHeader('Content-type', 'application/json');
         req.send(items);
     })
